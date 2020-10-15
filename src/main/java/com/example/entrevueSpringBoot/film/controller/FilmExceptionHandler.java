@@ -13,14 +13,15 @@ class FilmExceptionHandler {
 
 	@Autowired
 	MessageSource messageSource;
-	
-	  @ResponseBody
-	  @ExceptionHandler(FilmNotFoundException.class)
-	  ResponseEntity<ErrorResponse> filmNotFoundException(FilmNotFoundException ex) {
-	    
-		  ErrorResponse errorResponse = new ErrorResponse();
-		  errorResponse.setMessage(messageSource.getMessage("error.resource.film.notfound", new Object[]{ex.getFilmId()}, null));
-		  return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.NOT_FOUND);
-	  }
-	
+
+	@ResponseBody
+	@ExceptionHandler(FilmNotFoundException.class)
+	ResponseEntity<ErrorResponse> filmNotFoundException(FilmNotFoundException ex) {
+
+		ErrorResponse errorResponse = new ErrorResponse();
+		errorResponse.setMessage(
+				messageSource.getMessage("error.resource.film.notfound", new Object[] { ex.getFilmId() }, null));
+		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.NOT_FOUND);
+	}
+
 }
