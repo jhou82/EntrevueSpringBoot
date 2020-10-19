@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.entrevueSpringBoot.film.domain.Film;
+import com.example.entrevueSpringBoot.film.dto.CreateFilmRequest;
 import com.example.entrevueSpringBoot.film.dto.FilmDto;
-import com.example.entrevueSpringBoot.film.dto.FilmMapper;
+import com.example.entrevueSpringBoot.film.mapping.FilmMapper;
+import com.example.entrevueSpringBoot.film.mapping.FilmRequestMapper;
 import com.example.entrevueSpringBoot.film.repository.FilmRepository;
 
 @Service
@@ -15,6 +17,9 @@ class FilmServiceImpl implements FilmService {
 	
 	@Autowired
 	private FilmRepository filmRepository;
+	
+	@Autowired
+	private FilmRequestMapper filmRequestMapper;
 	
 	@Autowired
 	private FilmMapper filmMapper;
@@ -25,18 +30,18 @@ class FilmServiceImpl implements FilmService {
 		Optional<Film> film = filmRepository.findById(id);
 		
 		return film.flatMap(f -> {
-			FilmDto filmDto = filmMapper.toDto(f);
+			FilmDto filmDto = filmMapper.fromEntityToFilmDto(f);
 			return Optional.of(filmDto);
 		});
 
 	}
 
 	@Override
-	public FilmDto saveFilm(FilmDto filmDto) {
+	public FilmDto createFilm(CreateFilmRequest createFilmRequest) {
 		
-		Film filmEntity = filmMapper.toEntity(filmDto);
+		Film filmEntity = filmRequestMapper.fromCreateFilmRequestToEntity(createFilmRequest);
 		Film savedFilm = filmRepository.save(filmEntity);
-		return filmMapper.toDto(savedFilm);
+		return filmMapper.fromEntityToFilmDto(savedFilm);
 		
 	}
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.entrevueSpringBoot.film.dto.CreateFilmRequest;
 import com.example.entrevueSpringBoot.film.dto.FilmDto;
 import com.example.entrevueSpringBoot.film.service.FilmService;
 
@@ -48,11 +49,11 @@ class FilmController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	FilmDto createFilm(@RequestBody FilmDto filmDto) {
+	FilmDto createFilm(@RequestBody CreateFilmRequest createFilmRequest) {
 
-		log.log(Level.INFO, "Execution createFilm - /api/film - data : {0}", filmDto.toString());
+		log.log(Level.INFO, "Execution createFilm - /api/film - data : {0}", createFilmRequest.toString());
 
-		return filmService.saveFilm(filmDto);
+		return filmService.createFilm(createFilmRequest);
 	}
 
 }
